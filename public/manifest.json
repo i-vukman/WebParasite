@@ -1,0 +1,23 @@
+{
+  "name": "Web parasite",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "./popup/popup.html",
+    "default_icon": "./img/image.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["js/content.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "storage",
+    "https://europe-west3-web-parasite.cloudfunctions.net/*"
+  ]
+}
