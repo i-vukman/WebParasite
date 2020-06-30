@@ -8,6 +8,8 @@
     "outDir": "dist/js",
     "noEmitOnError": true,
     "typeRoots": [ "node_modules/@types" ],
-    "allowUmdGlobalAccess": true
+    "allowUmdGlobalAccess": true,
+    "jsx": "react",
+    "esModuleInterop": true
   }
 }

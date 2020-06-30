@@ -7,7 +7,7 @@ module.exports = {
   entry: {
     popup: path.join(__dirname, srcDir + 'popup/popup.ts'),
     background: path.join(__dirname, srcDir + 'background/background.ts'),
-    content: path.join(__dirname, srcDir + 'content/content.ts')
+    content: path.join(__dirname, srcDir + 'content/content.tsx')
   },
   output: {
     path: path.join(__dirname, '../dist/js'),
@@ -23,7 +23,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
