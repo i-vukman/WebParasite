@@ -1,37 +1,31 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import firebaseConfig from '../../firebase-config';
 
-class App extends React.Component {
-  state = {
-    count: 0
-  };
+function App() {
+  const [likesCount, setLikesCount] = useState(0);
 
-  docRef: firebase.firestore.DocumentReference;
-  unsubscribeListener: () => void;
-
-  componentDidMount() {
+  useEffect(() => {
     firebase.initializeApp(firebaseConfig);
-    var firestore = firebase.firestore();
+    const firestore = firebase.firestore();
+    const docRef = firestore.collection("likes-count").doc("likes-count");
 
-    this.docRef = firestore.collection("likes-count").doc("likes-count");
-    
-    this.unsubscribeListener = this.docRef.onSnapshot(doc => {
+    const unsubscribeListener = docRef.onSnapshot(doc => {
       if(doc && doc.exists) {
-        const myData = doc.data();
-        this.setState({count: myData.count});
+        const data = doc.data();
+        setLikesCount(data.count);
       }
     });
-  }
 
-  componentWillUnmount() {
-    this.unsubscribeListener();
-  }
+    return unsubscribeListener;
+  }, []);
 
-  render() {
-    return (<div>Number of likes {this.state.count}</div>);
-  }
+  return (
+    <div>
+      Number of likes is {likesCount}
+    </div>
+  );
 }
 
 export default App;
