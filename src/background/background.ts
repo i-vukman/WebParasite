@@ -18,7 +18,14 @@ async function handleMessage(message: ChromeMessage, sender: chrome.runtime.Mess
         await axios.put("https://europe-west3-web-parasite.cloudfunctions.net/like");
             
       await localStorage.set("hasLiked", !hasLiked);
-      sendResponse();
+      
+      chrome.tabs.query({}, tabs => {
+        tabs.forEach(tab => {
+          chrome.tabs.sendMessage(tab.id, {type: ChromeMessageType.LikeToggled, payload: !hasLiked});
+        });
+        sendResponse();
+      });
+
       break;
     };
   }

@@ -1,5 +1,6 @@
 enum ChromeMessageType {
-  ToggleLike
+  ToggleLike,
+  LikeToggled
 }
 
 export default ChromeMessageType;
