@@ -3,6 +3,13 @@ import ChromeMessageType from "../types/chrome-message-type";
 import * as localStorage from "../local-storage";
 import axios from 'axios';
 
+chrome.runtime.onInstalled.addListener(() => {
+  const code = "window.location.reload();";
+  chrome.tabs.query({url: "https://www.youtube.com/*"}, tabs => {
+    tabs.forEach(tab => chrome.tabs.executeScript(tab.id, {code}))
+  });
+});
+
 chrome.runtime.onMessage.addListener((message: ChromeMessage, sender, sendResponse) => {
   handleMessage(message, sender, sendResponse);
   return true;

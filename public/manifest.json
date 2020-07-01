@@ -2,9 +2,10 @@
   "name": "Web parasite",
   "version": "1.0.0",
   "manifest_version": 2,
+  "description": "Shift conference demo extension",
   "browser_action": {
     "default_popup": "./popup/popup.html",
-    "default_icon": "./img/image.png"
+    "default_icon": "./img/parasite.png"
   },
   "content_scripts": [
     {
@@ -20,5 +21,9 @@
     "storage",
     "https://europe-west3-web-parasite.cloudfunctions.net/*",
     "https://www.youtube.com/*"
-  ]
+  ],
+  "icons": { 
+    "128": "./img/parasite.png" 
+  }
 }
+

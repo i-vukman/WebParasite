@@ -49,7 +49,7 @@ function App() {
 
   return (
     <button
-      style={hasLiked ? activeLikeStyle : inactiveLikeStyle}
+      style={hasLiked ? {...likeStyle, ...activeLikeStyle} : likeStyle }
       disabled={isLoading} 
       onClick={handleLikeClick}
     >
@@ -59,14 +59,13 @@ function App() {
 }
 
 const activeLikeStyle: CSSProperties = {
-  backgroundColor: "#458af7",
-  border: "none",
-  borderRadius: "10px 10px"
+  backgroundColor: "#458af7"
 };
 
-const inactiveLikeStyle: CSSProperties = {
+const likeStyle: CSSProperties = {
   border: "none",
-  borderRadius: "10px 10px"
+  borderRadius: "10px 10px",
+  cursor: "pointer"
 };
 
 export default App;
