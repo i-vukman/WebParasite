@@ -18,6 +18,7 @@
   },
   "permissions": [
     "storage",
-    "https://europe-west3-web-parasite.cloudfunctions.net/*"
+    "https://europe-west3-web-parasite.cloudfunctions.net/*",
+    "https://www.youtube.com/*"
   ]
 }

@@ -19,7 +19,7 @@ async function handleMessage(message: ChromeMessage, sender: chrome.runtime.Mess
             
       await localStorage.set("hasLiked", !hasLiked);
       
-      chrome.tabs.query({}, tabs => {
+      chrome.tabs.query({url: "https://www.youtube.com/*"}, tabs => {
         tabs.forEach(tab => {
           chrome.tabs.sendMessage(tab.id, {type: ChromeMessageType.LikeToggled, payload: !hasLiked});
         });
