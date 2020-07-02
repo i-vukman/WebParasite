@@ -5,6 +5,7 @@ import firebaseConfig from '../../firebase-config';
 import ChromeMessageType from '../../types/chrome-message-type';
 import * as localStorage from '../../local-storage';
 import ChromeMessage from '../../types/chrome-message';
+import LocalStorageKeys from '../../types/local-storage-keys';
 
 function App() {
   const [likesCount, setLikesCount] = useState(0);
@@ -32,7 +33,7 @@ function App() {
 
     chrome.runtime.onMessage.addListener(handleChromeMessage);
 
-    localStorage.get("hasLiked")
+    localStorage.get(LocalStorageKeys.HasLiked)
       .then(setHasLiked)
       .then(() => setIsLoading(false));
 
