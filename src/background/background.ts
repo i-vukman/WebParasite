@@ -18,22 +18,21 @@ chrome.runtime.onMessage.addListener((message: ChromeMessage, sender, sendRespon
 
 async function handleMessage(message: ChromeMessage, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) {
   switch(message.type) {
-    case(ChromeMessageType.ToggleLike): {
-      const previousHasLiked = await localStorage.get(LocalStorageKeys.HasLiked);
-      if(previousHasLiked)
-        await parasiteFunctionsClient.unlike();
-      else
-        await parasiteFunctionsClient.like();
-      
-      const hasLiked = !previousHasLiked;
-      await localStorage.set(LocalStorageKeys.HasLiked, hasLiked);
-      
-      chrome.tabs.query({url: "https://www.youtube.com/*"}, tabs => {
-        tabs.forEach(tab => {
-          chrome.tabs.sendMessage(tab.id, {type: ChromeMessageType.LikeToggled, payload: hasLiked});
-        });
+    case(ChromeMessageType.Like): {
+      await parasiteFunctionsClient.like();
+      const hasAlreadyLiked = await localStorage.get(LocalStorageKeys.HasLiked);
+      if(hasAlreadyLiked)
         sendResponse();
-      });
+      else {
+        await localStorage.set(LocalStorageKeys.HasLiked, true);
+
+        chrome.tabs.query({url: "https://www.youtube.com/*"}, tabs => {
+          tabs.forEach(tab => {
+            chrome.tabs.sendMessage(tab.id, { type: ChromeMessageType.Liked });
+          });
+          sendResponse();
+        });
+      }
 
       break;
     };

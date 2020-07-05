@@ -6,6 +6,8 @@ import ChromeMessageType from '../../types/chrome-message-type';
 import * as localStorage from '../../local-storage';
 import ChromeMessage from '../../types/chrome-message';
 import LocalStorageKeys from '../../types/local-storage-keys';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [likesCount, setLikesCount] = useState(0);
@@ -27,8 +29,8 @@ function App() {
     });
 
     const handleChromeMessage = ((message: ChromeMessage) => {
-      if(message.type === ChromeMessageType.LikeToggled)
-        setHasLiked(message.payload);
+      if(message.type === ChromeMessageType.Liked)
+        setHasLiked(true);
     });
 
     chrome.runtime.onMessage.addListener(handleChromeMessage);
@@ -45,28 +47,34 @@ function App() {
 
   const handleLikeClick = () => {
     setIsLoading(true);
-    chrome.runtime.sendMessage({type: ChromeMessageType.ToggleLike}, () => setIsLoading(false));
+    chrome.runtime.sendMessage({type: ChromeMessageType.Like}, () => setIsLoading(false));
   }
 
+  let likeColor;
+  if(isLoading)
+    likeColor = "#458af7";
+  else if(hasLiked)
+    likeColor = "#2222ff";
+
   return (
-    <button
-      style={hasLiked ? {...likeStyle, ...activeLikeStyle} : likeStyle }
-      disabled={isLoading} 
-      onClick={handleLikeClick}
-    >
-      Parasite Likes: {likesCount}
-    </button>
+    <div>
+      <FontAwesomeIcon
+        onClick={() => !isLoading && handleLikeClick()}
+        icon={faThumbsUp}
+        size={'2x'}
+        style={ {...likeStyle, color: likeColor} }
+      />
+      <div>
+        Likes: {likesCount}
+      </div>
+    </div>
   );
 }
 
-const activeLikeStyle: CSSProperties = {
-  backgroundColor: "#458af7"
-};
-
 const likeStyle: CSSProperties = {
-  border: "none",
-  borderRadius: "10px 10px",
-  cursor: "pointer"
+  cursor: "pointer",
+  marginLeft: 5,
+  marginTop: 10
 };
 
 export default App;
