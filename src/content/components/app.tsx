@@ -50,11 +50,11 @@ function App() {
     chrome.runtime.sendMessage({type: ChromeMessageType.Like}, () => setIsLoading(false));
   }
 
-  let likeColor;
-  if(isLoading)
-    likeColor = "#458af7";
-  else if(hasLiked)
-    likeColor = "#2222ff";
+  let likeColor = isLoading 
+    ? "#458af7" 
+    : hasLiked 
+      ? "#2222ff" 
+      : null;
 
   return (
     <div>
